@@ -33,7 +33,7 @@ function draw() {
     for (var i = 0; i < sphereArray.length; i++) {
         drawSphere(sphereArray[i]);
     }
-    distToAllObj();
+    
     requestAnimationFrame(draw);
 }
 
