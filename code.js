@@ -4,23 +4,25 @@ var dx, dy;
 var sphereArray = [];
 var click = false;
 var clickObj;
+var count = 3;
 
-var sphere = {
-    x: 100,
-    y: 100,
-    r: 50,
-    name: "Сфера 1"
-};
+var distArr = [];
 
-var sphere2 = {
-    x: 200,
-    y: 100,
-    r: 50,
-    name: "Сфера 2"
-};
+for (var i = 0; i < count; i++) {
+    var aSphere = new Sphere();
+    aSphere.x = Math.random() * canvas.width;
+    aSphere.y = Math.random() * canvas.height;
+    aSphere.r = 50;
+    aSphere.name = "Сфера " + (i + 1);
+    sphereArray.push(aSphere);
+}
 
-sphereArray.push(sphere);
-sphereArray.push(sphere2);
+function Sphere() {
+    this.x = 0
+    this.y = 0
+    this.r = 0
+    this.name = "";
+}
 
 canvas.onmousedown = startMove;
 canvas.onmouseup = stopMove;
@@ -31,7 +33,7 @@ function draw() {
     for (var i = 0; i < sphereArray.length; i++) {
         drawSphere(sphereArray[i]);
     }
-
+    distToAllObj();
     requestAnimationFrame(draw);
 }
 
@@ -49,9 +51,12 @@ function drawSphere(sphereObj) {
 
 function startMove(e) {
     clickObj = findClickObj(e);
-    if (checkClickObj(e, clickObj)) click = true;
-    dx = e.offsetX - clickObj.x;
-    dy = e.offsetY - clickObj.y;
+    if (typeof clickObj != "undefined") {
+        if (checkClickObj(e, clickObj)) click = true;
+        dx = e.offsetX - clickObj.x;
+        dy = e.offsetY - clickObj.y;
+    }
+
 }
 
 // Дейсвие когда отпускаем кнопку мыши
@@ -72,7 +77,6 @@ function callCoords(e) {
 function findClickObj(coord) {
     for (var i = 0; i < sphereArray.length; i++) {
         if (checkClickObj(coord, sphereArray[i])) {
-            console.log("Нажато на сферу с индексом - " + i);
             return sphereArray[i];
         }
     }
